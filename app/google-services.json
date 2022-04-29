@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "371314786392",
+    "project_id": "the-busy-shop-fb0c1",
+    "storage_bucket": "the-busy-shop-fb0c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371314786392:android:dca96900d893ffd3ceca2d",
+        "android_client_info": {
+          "package_name": "android.com.jamsand.io.thebusyshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371314786392-6v64jgbjg5u2jmp3atqob1mg34uhqg65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB68l_soLCZNb3jzIzdBWDR4qxvoRjl4l4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371314786392-6v64jgbjg5u2jmp3atqob1mg34uhqg65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
