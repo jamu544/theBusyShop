@@ -6,6 +6,7 @@ import android.com.jamsand.io.thebusyshop.interfaces.OnItemClickListener;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
 import android.com.jamsand.io.thebusyshop.views.MainActivity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeH
     private List<Barcode> barcodes = new ArrayList<>();
 
     public OnItemClickListener listener;
+    private int rowIndex = -1;
 
     @NonNull
     @Override
@@ -36,6 +38,12 @@ public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeH
     public void onBindViewHolder(@NonNull BarcodeHolder holder, int position) {
         final Barcode barcode = barcodes.get(position);
     //    holder.barcodeImage.setImageResource(barcode.barcodeImage);
+        if(barcode.isChecked){
+            holder.barcodeName.setTextColor(Color.parseColor("#FF0000"));
+        }
+        else{
+            holder.barcodeName.setTextColor(Color.parseColor("#000000"));
+        }
         holder.barcodeName.setText(barcode.barcodeName);
     }
     @Override
@@ -64,6 +72,7 @@ public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeH
                     int position = getAdapterPosition();// ALT CTRL L to format
                     if (listener != null && position != RecyclerView.NO_POSITION){
                         listener.onItemClick(barcodes.get(position));
+                        rowIndex=position;
                     }
                 }
             });
