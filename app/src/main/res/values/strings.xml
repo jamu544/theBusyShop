@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">The Busy Shop</string>
+    <string name="barcode">100110011868</string>
+    <string name="barcode_product">250545</string>
+    <string name="add_to_cart">Add to cart!</string>
+    <string name="check_out">Check-out</string>
+    <string name="quantity">Quantity</string>
 </resources>

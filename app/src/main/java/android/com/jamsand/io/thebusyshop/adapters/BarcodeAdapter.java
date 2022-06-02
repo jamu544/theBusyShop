@@ -1,8 +1,10 @@
 package android.com.jamsand.io.thebusyshop.adapters;
 
+import android.app.Application;
 import android.com.jamsand.io.thebusyshop.R;
 import android.com.jamsand.io.thebusyshop.interfaces.OnItemClickListener;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
+import android.com.jamsand.io.thebusyshop.views.MainActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

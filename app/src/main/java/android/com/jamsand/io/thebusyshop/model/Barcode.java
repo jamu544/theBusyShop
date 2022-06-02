@@ -12,13 +12,15 @@ public class Barcode {
     public String description;
     public String image;
     public double price;
+    public boolean isChecked;// true if the user sets quantity
 
-    public Barcode(int id,String barcodeName, String description, String image, double price) {
+    public Barcode(int id,String barcodeName, String description, String image, double price,boolean isChecked) {
         this.id = id;
         this.barcodeName = barcodeName;
         this.description = description;
         this.image = image;
         this.price = price;
+        this.isChecked = isChecked;
     }
 
     public Barcode(String barcodeImage, int barcode) {
