@@ -56,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
         });
         barcodeAdapter.setOnItemClickListener(barcode -> {
             Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+            intent.putExtra(Constants.EXTRA_ID, barcode.id);
             intent.putExtra(Constants.EXTRA_BARCODE, barcode.barcodeName);
             intent.putExtra(Constants.EXTRA_DESCRIPTION, barcode.description);
             intent.putExtra(Constants.EXTRA_PRICE, barcode.price);
-            startActivity(intent);
+            intent.putExtra(Constants.EXTRA_IS_CHECKED, barcode.isChecked);
+            startActivityForResult(intent,EDIT_NOTE_REQUEST);
             Log.d("Product ", barcode.toString());
         });
     }
@@ -68,35 +70,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-//            String title = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
-//            String description = data.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
-//            int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1);
-//
-//            Note note = new Note(title, description, priority);
-//            noteViewModel.insert(note);
-//            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
-//        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
-//            int id = data.getIntExtra(AddEditNoteActivity.EXTRA_ID, -1);
-//
-//            if (id == -1) {
-//                Toast.makeText(this, "Note can't be saved", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//
-//            String title = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
-//            String description = data.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
-//            int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1);
-//
-//            Note note = new Note(title, description, priority);
-//            note.setId(id);
-//            noteViewModel.update(note);
-//            Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
-//
-//
-//        } else {
-//            Toast.makeText(this, "Noted not saved", Toast.LENGTH_SHORT).show();
-//        }
+        if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(Constants.EXTRA_ID, -1);
+
+            if (id == -1) {
+                Toast.makeText(this, "Barcode can't be saved", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String barcodeName = data.getStringExtra(Constants.EXTRA_BARCODE);
+            String description = data.getStringExtra(Constants.EXTRA_DESCRIPTION);
+            double price = data.getDoubleExtra(Constants.EXTRA_PRICE, 1);
+            boolean isChecked = data.getBooleanExtra(Constants.EXTRA_IS_CHECKED,true);
+
+           Barcode barcode = new Barcode(id,barcodeName,description,"banana",price,isChecked);
+           barcodeViewModel.update(barcode);
+
+           Toast.makeText(this, "Barcode updated"+barcodeName, Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(this, "Barcode not saved", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -5,4 +5,5 @@
     <string name="add_to_cart">Add to cart!</string>
     <string name="check_out">Check-out</string>
     <string name="quantity">Quantity</string>
+    <string name="ZAR">R</string>
 </resources>
