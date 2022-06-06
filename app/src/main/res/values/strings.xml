@@ -6,4 +6,7 @@
     <string name="check_out">Check-out</string>
     <string name="quantity">Quantity</string>
     <string name="ZAR">R</string>
+    <string name="summary">Summary</string>
+    <string name="date_str">03 March 2022</string>
+    <string name="info_about_pruchase">Apple X 2 = Total</string>
 </resources>
