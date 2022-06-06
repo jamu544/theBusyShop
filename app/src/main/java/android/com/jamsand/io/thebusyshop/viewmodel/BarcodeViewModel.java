@@ -13,10 +13,13 @@ import androidx.lifecycle.LiveData;
 public class BarcodeViewModel extends AndroidViewModel {
     private BarcodeRepository repository;
     private LiveData<List<Barcode>> allBarcodes;
+    private LiveData<List<Barcode>> checkedBarcodes;
     public BarcodeViewModel(@NonNull Application application) {
         super(application);
         repository = new BarcodeRepository(application);
         allBarcodes = repository.getAllBarcodes();
+        checkedBarcodes = repository.getCheckedBarcodes();
+
     }
     public void insert(Barcode barcode){
         repository.insert(barcode);
@@ -32,5 +35,9 @@ public class BarcodeViewModel extends AndroidViewModel {
     }
     public LiveData<List<Barcode>> getAllBarcodes() {
         return allBarcodes;
+    }
+
+    public LiveData<List<Barcode>> getCheckedBarcodes(){
+        return checkedBarcodes;
     }
 }

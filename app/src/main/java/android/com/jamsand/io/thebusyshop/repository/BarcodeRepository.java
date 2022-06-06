@@ -14,11 +14,13 @@ public class BarcodeRepository {
 
     private BarcodeDao  barcodeDao;
     private LiveData<List<Barcode>> allBarcodes;
+    private LiveData<List<Barcode>> checkedBarcodes;
 
     public BarcodeRepository(Application application) {
         BarcodeDatabase database = BarcodeDatabase.getInstance(application);
         barcodeDao = database.barcodeDao();
         allBarcodes = barcodeDao.getAllBarcodes();
+        checkedBarcodes = barcodeDao.getCheckedBarcodes();
     }
     public void insert(Barcode barcode){
         new InsertBarcodeAsyncTask(barcodeDao).execute(barcode);
@@ -38,6 +40,9 @@ public class BarcodeRepository {
 
     public LiveData<List<Barcode>> getAllBarcodes(){
         return allBarcodes;
+    }
+    public LiveData<List<Barcode>> getCheckedBarcodes(){
+        return checkedBarcodes;
     }
 
     // insert async tasks

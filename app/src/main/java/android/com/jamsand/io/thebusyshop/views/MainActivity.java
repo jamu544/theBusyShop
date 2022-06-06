@@ -45,14 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         barcodeViewModel = new ViewModelProvider(this).get(BarcodeViewModel.class);
-        barcodeViewModel.getAllBarcodes().observe(this, new Observer<List<Barcode>>() {
-            @Override
-            public void onChanged(List<Barcode> barcodes) {
-                //update RecyclerView
-                Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
+        barcodeViewModel.getAllBarcodes().observe(this, barcodes -> {
+            //update RecyclerView
+            Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
 
-                barcodeAdapter.setBarcodes(barcodes);
-            }
+            barcodeAdapter.setBarcodes(barcodes);
         });
         barcodeAdapter.setOnItemClickListener(barcode -> {
             Intent intent = new Intent(MainActivity.this, ProductActivity.class);
@@ -64,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent,EDIT_NOTE_REQUEST);
             Log.d("Product ", barcode.toString());
         });
+
+        Log.d("Checked checked ", String.valueOf(barcodeViewModel.getCheckedBarcodes().getValue().size()));
+        ;
     }
 
     @Override

@@ -53,8 +53,6 @@ public class ProductActivity extends AppCompatActivity {
 
     public void addToCartOnClick(View view){
 
-
-
         String barcodeName = barcodeTextView.getText().toString();
         String description = descriptionTextView.getText().toString();
        // double price = Double.parseDouble(priceTextView.getText().toString());
@@ -84,22 +82,14 @@ public class ProductActivity extends AppCompatActivity {
         builder.setCancelable(false);
         //builder.setMessage("My Message");
         builder.setPositiveButton("OK", (dialog, which) -> {
-
             setResult(RESULT_OK, data);
             finish();
-
             Toast.makeText(ProductActivity.this, "added to Cart"+quantity, Toast.LENGTH_SHORT).show();
              });
         builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
-
         AlertDialog dialog = builder.create();
-
         //Show the AlertDialog
         dialog.show();
-
-
-
-
     }
 
     public void checkOutOnClick(View view ){
@@ -111,5 +101,7 @@ public class ProductActivity extends AppCompatActivity {
         double sum = price * quantity;
         return sum;
     }
+
+
 
 }

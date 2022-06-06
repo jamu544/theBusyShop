@@ -24,5 +24,7 @@ public interface BarcodeDao {
     void deleteAllBarcodes();
     @Query("SELECT * FROM Barcode ORDER BY id ASC")
     LiveData<List<Barcode>> getAllBarcodes();
+    @Query("SELECT * FROM Barcode WHERE isChecked = 'true' ORDER BY id ASC")
+    LiveData<List<Barcode>> getCheckedBarcodes();
 
 }
