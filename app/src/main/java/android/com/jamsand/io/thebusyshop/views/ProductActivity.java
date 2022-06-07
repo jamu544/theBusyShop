@@ -71,6 +71,7 @@ public class ProductActivity extends AppCompatActivity {
         data.putExtra(Constants.EXTRA_DESCRIPTION, description);
         data.putExtra(Constants.EXTRA_PRICE, price);
         data.putExtra(Constants.EXTRA_IS_CHECKED, true);
+        data.putExtra(Constants.EXTRA_QUANTITY, quantity);
 
         int id = getIntent().getIntExtra(Constants.EXTRA_ID,-1);
         if(id != -1){
@@ -84,7 +85,7 @@ public class ProductActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialog, which) -> {
             setResult(RESULT_OK, data);
             finish();
-            Toast.makeText(ProductActivity.this, "added to Cart"+quantity, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProductActivity.this, "added to Cart", Toast.LENGTH_SHORT).show();
              });
         builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
         AlertDialog dialog = builder.create();

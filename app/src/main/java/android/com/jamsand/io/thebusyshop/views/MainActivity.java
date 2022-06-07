@@ -2,7 +2,6 @@ package android.com.jamsand.io.thebusyshop.views;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,18 +14,25 @@ import android.com.jamsand.io.thebusyshop.utilities.Constants;
 import android.com.jamsand.io.thebusyshop.viewmodel.BarcodeViewModel;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.List;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private BarcodeViewModel barcodeViewModel;
     public static final int ADD_NOTE_REQUEST = 1;
-    public static final int EDIT_NOTE_REQUEST = 2;
+    public static final int EDIT_BARCODE_REQUEST = 2;
     public static Context context;
+
+    Barcode barcode;
+    ArrayList<Barcode> modelArrayList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +64,18 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(Constants.EXTRA_DESCRIPTION, barcode.description);
             intent.putExtra(Constants.EXTRA_PRICE, barcode.price);
             intent.putExtra(Constants.EXTRA_IS_CHECKED, barcode.isChecked);
-            startActivityForResult(intent,EDIT_NOTE_REQUEST);
+            startActivityForResult(intent, EDIT_BARCODE_REQUEST);
             Log.d("Product ", barcode.toString());
         });
 
-        Log.d("Checked checked ", String.valueOf(barcodeViewModel.getCheckedBarcodes().getValue().size()));
-        ;
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == EDIT_BARCODE_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(Constants.EXTRA_ID, -1);
 
             if (id == -1) {
@@ -82,9 +87,28 @@ public class MainActivity extends AppCompatActivity {
             String description = data.getStringExtra(Constants.EXTRA_DESCRIPTION);
             double price = data.getDoubleExtra(Constants.EXTRA_PRICE, 1);
             boolean isChecked = data.getBooleanExtra(Constants.EXTRA_IS_CHECKED,true);
+            int quantity = data.getIntExtra(Constants.EXTRA_QUANTITY,1);
 
-           Barcode barcode = new Barcode(id,barcodeName,description,"banana",price,isChecked);
-           barcodeViewModel.update(barcode);
+
+        //    for (int i = 0; i < 5; i++) {
+                barcode = new Barcode(id,barcodeName,description,"banana",price,isChecked,quantity);
+                modelArrayList.add(barcode);
+          //  }
+
+
+            barcodeViewModel.update(barcode);
+
+            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+            Gson gson = new Gson();
+
+            String json = gson.toJson(modelArrayList);
+
+
+
+            prefsEditor.putString("MyObject",json);
+            prefsEditor.apply();
+
 
            Toast.makeText(this, "Barcode updated"+barcodeName, Toast.LENGTH_SHORT).show();
 

@@ -1,47 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/info_summary"
+        android:layout_width="356dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/summary"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/card_view" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:background="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="323dp"
+        android:layout_height="328dp"
         android:layout_gravity="center"
-        card_view:cardCornerRadius="4dp">
+        android:layout_marginTop="72dp"
+        android:background="@color/black"
+        card_view:cardCornerRadius="4dp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
 
-        <TextView
-            android:id="@+id/info_summary"
-            android:text="@string/summary"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/info_date"
-            android:text="@string/date_str"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/info_purchased"
-                android:text="@string/info_about_pruchase"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
     </androidx.cardview.widget.CardView>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold"
+        android:text="03:08:2020"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.498"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/info_summary" />
+
+    <TextView
+        android:id="@+id/info_purchased"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="one item"
+        android:textSize="20sp"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/dateTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
