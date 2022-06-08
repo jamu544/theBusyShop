@@ -90,24 +90,21 @@ public class MainActivity extends AppCompatActivity {
             int quantity = data.getIntExtra(Constants.EXTRA_QUANTITY,1);
 
 
-        //    for (int i = 0; i < 5; i++) {
                 barcode = new Barcode(id,barcodeName,description,"banana",price,isChecked,quantity);
+                barcode.calculateTheNumberOfFruitsPerPurchase(price,quantity);
                 modelArrayList.add(barcode);
-          //  }
+                barcodeViewModel.update(barcode);
 
-
-            barcodeViewModel.update(barcode);
-
-            SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+                // saving barcode objects
+            SharedPreferences appSharedPrefsSavesItems = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor prefsEditor = appSharedPrefsSavesItems.edit();
             Gson gson = new Gson();
-
             String json = gson.toJson(modelArrayList);
-
-
-
             prefsEditor.putString("MyObject",json);
             prefsEditor.apply();
+
+                // saving cost per item
+
 
 
            Toast.makeText(this, "Barcode updated"+barcodeName, Toast.LENGTH_SHORT).show();
