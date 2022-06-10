@@ -78,7 +78,7 @@ public class SummaryActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.summary_menu, menu);
+        getMenuInflater().inflate(R.menu.check_out_confirmation_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

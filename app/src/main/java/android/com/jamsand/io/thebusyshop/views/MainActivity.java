@@ -1,5 +1,6 @@
 package android.com.jamsand.io.thebusyshop.views;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,16 +16,23 @@ import android.com.jamsand.io.thebusyshop.model.Barcode;
 import android.com.jamsand.io.thebusyshop.utilities.Utils;
 import android.com.jamsand.io.thebusyshop.viewmodel.BarcodeViewModel;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -156,8 +164,68 @@ public class MainActivity extends AppCompatActivity {
     // get online images for products(incomplete)
     // create order summary
     // after receipt return objects to default
+    // clean
     public void init(){
         progressBar = new ProgressDialog(context);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.summary_checkout, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.summaryButton:
+
+                SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+                Gson gson = new Gson();
+                String json = appSharedPrefs.getString("MyObject", "");
+
+                Type type = new TypeToken<List<Barcode>>() {}.getType();
+                List<Barcode> arrayList = gson.fromJson(json, type);
+
+//                setTextViewFromSharedPreferencesList((ArrayList<Barcode>) arrayList,summaryInfoTextView);
+//                totolCalculatedTextView.setText(getString(R.string.total)+totalCalculated);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder
+                        (MainActivity.this,R.style.AlertDialogTheme);
+                builder1.setTitle("Summary Order");
+                builder1 .setMessage(arrayList.toString());
+                builder1 .setPositiveButton("CHECK-OUT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(MainActivity.this, "Check-Out", Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder1.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/layout.xml" value="0.33967391304347827" />
         <entry key="app/src/main/res/layout/listview_summary.xml" value="0.33967391304347827" />
         <entry key="app/src/main/res/menu/check_out_menu.xml" value="0.1828125" />
+        <entry key="app/src/main/res/menu/summary_checkout.xml" value="0.1828125" />
         <entry key="app/src/main/res/menu/summary_menu.xml" value="0.1" />
       </map>
     </option>
