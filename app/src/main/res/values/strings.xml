@@ -9,4 +9,8 @@
     <string name="summary">Summary</string>
     <string name="date_str">03 March 2022</string>
     <string name="info_about_pruchase">Apple X 2 = Total</string>
+    <string name="total">Total :$ </string>
+    <string name="app_shop_label">The Busy Shop</string>
+    <string name="scan_an_item">Scan an item:</string>
+    <string name="share">SHARE</string>
 </resources>

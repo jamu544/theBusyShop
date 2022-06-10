@@ -1,11 +1,13 @@
 package android.com.jamsand.io.thebusyshop.views;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.com.jamsand.io.thebusyshop.R;
 import android.com.jamsand.io.thebusyshop.adapters.BarcodeAdapter;
 import android.com.jamsand.io.thebusyshop.data.BarcodeDatabase;
@@ -18,6 +20,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,13 +37,22 @@ public class MainActivity extends AppCompatActivity {
     Barcode barcode;
     ArrayList<Barcode> modelArrayList = new ArrayList();
 
+    ProgressDialog progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Annex");
+        setTitle(getString(R.string.app_shop_label));
 
         context = this;
+        init();
+
+        progressBar.setMessage("please wait...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setCancelable(false);
+        progressBar.show();
+
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.scannListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         barcodeViewModel = new ViewModelProvider(this).get(BarcodeViewModel.class);
         barcodeViewModel.getAllBarcodes().observe(this, barcodes -> {
+            progressBar.dismiss();
             //update RecyclerView
             Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
 
@@ -119,6 +132,36 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         // close the primary database to ensure all the transactions are merged
         BarcodeDatabase.getInstance(getApplicationContext()).close();
+     //   BarcodeDatabase.getInstance(getApplicationContext()).barcodeDao().deleteAllBarcodes();
     }
+    //display order summary
+    public void orderSummaryLayout(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Order Summary");
+        builder.setCancelable(false);
+        builder.setMessage("Apple Banana Orange ");
+        builder.setPositiveButton("CONFIRM", (dialog, which) -> {
+
+            Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
+            startActivity(intent);
+            Toast.makeText(MainActivity.this, "Check-Out", Toast.LENGTH_SHORT).show();
+
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
+        AlertDialog dialog = builder.create();
+        //Show the AlertDialog
+        dialog.show();
+    }
+    // TO DO LIST:
+    // get online images for products(incomplete)
+    // create order summary
+    // eliminate duplication from order list
+    // after receipt return objects to default
+    //receipt option to share it via Whatsapp, Gmail etc
+    //create progress bar when loading items - done
+    public void init(){
+        progressBar = new ProgressDialog(context);
+    }
+    //add MATERIAL DESIGN(available for implementation)
 
 }
