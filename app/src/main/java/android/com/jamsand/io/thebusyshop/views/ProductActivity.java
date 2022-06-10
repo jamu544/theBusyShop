@@ -1,19 +1,18 @@
 package android.com.jamsand.io.thebusyshop.views;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.com.jamsand.io.thebusyshop.R;
-import android.com.jamsand.io.thebusyshop.utilities.Constants;
+import android.com.jamsand.io.thebusyshop.utilities.Utils;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.com.jamsand.io.thebusyshop.views.MainActivity.context;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -35,10 +34,10 @@ public class ProductActivity extends AppCompatActivity {
         setTitle("ITEM");
         init();
         Intent intent = getIntent();
-        if(intent.hasExtra(Constants.EXTRA_ID)) {
-            barcodeTextView.setText(intent.getStringExtra(Constants.EXTRA_BARCODE));
-            descriptionTextView.setText(intent.getStringExtra(Constants.EXTRA_DESCRIPTION));
-            price = intent.getDoubleExtra(Constants.EXTRA_PRICE, 0.0);
+        if(intent.hasExtra(Utils.EXTRA_ID)) {
+            barcodeTextView.setText(intent.getStringExtra(Utils.EXTRA_BARCODE));
+            descriptionTextView.setText(intent.getStringExtra(Utils.EXTRA_DESCRIPTION));
+            price = intent.getDoubleExtra(Utils.EXTRA_PRICE, 0.0);
             priceTextView.setText(getString(R.string.ZAR) + price);
         }
     }
@@ -68,30 +67,48 @@ public class ProductActivity extends AppCompatActivity {
 //            return;
 //        }
         Intent data = new Intent();
-        data.putExtra(Constants.EXTRA_BARCODE, barcodeName);
-        data.putExtra(Constants.EXTRA_DESCRIPTION, description);
-        data.putExtra(Constants.EXTRA_PRICE, price);
-        data.putExtra(Constants.EXTRA_IS_CHECKED, true);
-        data.putExtra(Constants.EXTRA_QUANTITY, quantity);
+        data.putExtra(Utils.EXTRA_BARCODE, barcodeName);
+        data.putExtra(Utils.EXTRA_DESCRIPTION, description);
+        data.putExtra(Utils.EXTRA_PRICE, price);
+        data.putExtra(Utils.EXTRA_IS_CHECKED, true);
+        data.putExtra(Utils.EXTRA_QUANTITY, quantity);
 
-        int id = getIntent().getIntExtra(Constants.EXTRA_ID,-1);
+        int id = getIntent().getIntExtra(Utils.EXTRA_ID,-1);
         if(id != -1){
-            data.putExtra(Constants.EXTRA_ID,id);
+            data.putExtra(Utils.EXTRA_ID,id);
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add to Cart");
-        builder.setCancelable(false);
-        //builder.setMessage("My Message");
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            setResult(RESULT_OK, data);
-            finish();
-            Toast.makeText(ProductActivity.this, "added to Cart", Toast.LENGTH_SHORT).show();
-             });
-        builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
-        AlertDialog dialog = builder.create();
-        //Show the AlertDialog
-        dialog.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Add to Cart");
+//        builder.setCancelable(false);
+//        //builder.setMessage("My Message");
+//        builder.setPositiveButton("OK", (dialog, which) -> {
+//            setResult(RESULT_OK, data);
+//            finish();
+//            Toast.makeText(ProductActivity.this, "added to Cart", Toast.LENGTH_SHORT).show();
+//             });
+//        builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
+//        AlertDialog dialog = builder.create();
+//        //Show the AlertDialog
+//        dialog.show();
+
+     MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder
+             (ProductActivity.this,R.style.AlertDialogTheme);
+        builder1.setTitle("Add to Cart!");
+        builder1 .setMessage("Add this item to cart?");
+        builder1 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        setResult(RESULT_OK, data);
+                        finish();
+                    }
+                }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder1.show();
     }
 
     public void checkOutOnClick(View view ){

@@ -12,7 +12,7 @@ import android.com.jamsand.io.thebusyshop.R;
 import android.com.jamsand.io.thebusyshop.adapters.BarcodeAdapter;
 import android.com.jamsand.io.thebusyshop.data.BarcodeDatabase;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
-import android.com.jamsand.io.thebusyshop.utilities.Constants;
+import android.com.jamsand.io.thebusyshop.utilities.Utils;
 import android.com.jamsand.io.thebusyshop.viewmodel.BarcodeViewModel;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -72,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
         });
         barcodeAdapter.setOnItemClickListener(barcode -> {
             Intent intent = new Intent(MainActivity.this, ProductActivity.class);
-            intent.putExtra(Constants.EXTRA_ID, barcode.id);
-            intent.putExtra(Constants.EXTRA_BARCODE, barcode.barcodeName);
-            intent.putExtra(Constants.EXTRA_DESCRIPTION, barcode.description);
-            intent.putExtra(Constants.EXTRA_PRICE, barcode.price);
-            intent.putExtra(Constants.EXTRA_IS_CHECKED, barcode.isChecked);
+            intent.putExtra(Utils.EXTRA_ID, barcode.id);
+            intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
+            intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
+            intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
+            intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
             startActivityForResult(intent, EDIT_BARCODE_REQUEST);
             Log.d("Product ", barcode.toString());
         });
@@ -89,18 +88,18 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == EDIT_BARCODE_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(Constants.EXTRA_ID, -1);
+            int id = data.getIntExtra(Utils.EXTRA_ID, -1);
 
             if (id == -1) {
                 Toast.makeText(this, "Barcode can't be saved", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String barcodeName = data.getStringExtra(Constants.EXTRA_BARCODE);
-            String description = data.getStringExtra(Constants.EXTRA_DESCRIPTION);
-            double price = data.getDoubleExtra(Constants.EXTRA_PRICE, 1);
-            boolean isChecked = data.getBooleanExtra(Constants.EXTRA_IS_CHECKED,true);
-            int quantity = data.getIntExtra(Constants.EXTRA_QUANTITY,1);
+            String barcodeName = data.getStringExtra(Utils.EXTRA_BARCODE);
+            String description = data.getStringExtra(Utils.EXTRA_DESCRIPTION);
+            double price = data.getDoubleExtra(Utils.EXTRA_PRICE, 1);
+            boolean isChecked = data.getBooleanExtra(Utils.EXTRA_IS_CHECKED,true);
+            int quantity = data.getIntExtra(Utils.EXTRA_QUANTITY,1);
 
 
                 barcode = new Barcode(id,barcodeName,description,"banana",price,isChecked,quantity);
@@ -112,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences appSharedPrefsSavesItems = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor prefsEditor = appSharedPrefsSavesItems.edit();
             Gson gson = new Gson();
-            String json = gson.toJson(modelArrayList);
+            //eliminate duplicates
+            String json = gson.toJson(Utils.clearListFromDuplicateFirstName(modelArrayList));
             prefsEditor.putString("MyObject",json);
             prefsEditor.apply();
 
@@ -157,11 +157,13 @@ public class MainActivity extends AppCompatActivity {
     // create order summary
     // eliminate duplication from order list
     // after receipt return objects to default
-    //receipt option to share it via Whatsapp, Gmail etc
-    //create progress bar when loading items - done
+    //receipt option to share it via Whatsapp, Gmail etc(done)
+    //create progress bar when loading items - (done)
+    //add colors of the ikhokha
+    //add MATERIAL DESIGN(done)
     public void init(){
         progressBar = new ProgressDialog(context);
     }
-    //add MATERIAL DESIGN(available for implementation)
+
 
 }
