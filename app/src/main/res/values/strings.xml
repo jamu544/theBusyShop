@@ -13,4 +13,5 @@
     <string name="app_shop_label">The Busy Shop</string>
     <string name="scan_an_item">Scan an item:</string>
     <string name="share">SHARE</string>
+    <string name="check_out_button">CHECK-OUT</string>
 </resources>

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/add_button.xml" value="0.1075" />
         <entry key="app/src/main/res/drawable/image_background.xml" value="0.1075" />
         <entry key="app/src/main/res/layout/activity_image.xml" value="0.15" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2942708333333333" />
@@ -11,6 +12,7 @@
         <entry key="app/src/main/res/layout/barcode_list_item.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/layout/layout.xml" value="0.33967391304347827" />
         <entry key="app/src/main/res/layout/listview_summary.xml" value="0.33967391304347827" />
+        <entry key="app/src/main/res/menu/check_out_menu.xml" value="0.1828125" />
         <entry key="app/src/main/res/menu/summary_menu.xml" value="0.1" />
       </map>
     </option>

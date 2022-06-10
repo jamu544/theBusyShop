@@ -1,5 +1,6 @@
 package android.com.jamsand.io.thebusyshop.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.com.jamsand.io.thebusyshop.R;
@@ -7,6 +8,8 @@ import android.com.jamsand.io.thebusyshop.utilities.Utils;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -110,17 +113,20 @@ public class ProductActivity extends AppCompatActivity {
         });
         builder1.show();
     }
-
-    public void checkOutOnClick(View view ){
-        Intent intent = new Intent(ProductActivity.this, SummaryActivity.class);
-        startActivity(intent);
-        Toast.makeText(ProductActivity.this, "Check-Out", Toast.LENGTH_SHORT).show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.check_out_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
-    public double calculateProduct(double price,int quantity){
-        double sum = price * quantity;
-        return sum;
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.checkoutButton:
+                Intent intent = new Intent(ProductActivity.this, SummaryActivity.class);
+                startActivity(intent);
+                Toast.makeText(ProductActivity.this, "Check-Out", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
-
-
-
 }
