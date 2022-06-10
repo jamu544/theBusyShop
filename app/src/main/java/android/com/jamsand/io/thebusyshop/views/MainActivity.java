@@ -155,11 +155,11 @@ public class MainActivity extends AppCompatActivity {
     // TO DO LIST:
     // get online images for products(incomplete)
     // create order summary
-    // eliminate duplication from order list
+    // eliminate duplication from order list(doone)
     // after receipt return objects to default
     //receipt option to share it via Whatsapp, Gmail etc(done)
     //create progress bar when loading items - (done)
-    //add colors of the ikhokha
+    //add colors of the ikhokha(done)
     //add MATERIAL DESIGN(done)
     public void init(){
         progressBar = new ProgressDialog(context);
