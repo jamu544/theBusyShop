@@ -10,18 +10,18 @@ public class Barcode {
     public int barcodeImage;
     public String barcodeName;
     public String description;
-    public String image;
+    public String productImage;
     public double price;
     public boolean isChecked;// true if the user sets quantity
     public int quantity;
 
     public Barcode(){}
 
-    public Barcode(int id,String barcodeName, String description, String image, double price,boolean isChecked,int quantity) {
+    public Barcode(int id, String barcodeName, String description, String productImage, double price, boolean isChecked, int quantity) {
         this.id = id;
         this.barcodeName = barcodeName;
         this.description = description;
-        this.image = image;
+        this.productImage = productImage;
         this.price = price;
         this.isChecked = isChecked;
         this.quantity = quantity;

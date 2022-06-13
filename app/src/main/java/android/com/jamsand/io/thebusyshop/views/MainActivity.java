@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setCancelable(false);
         progressBar.show();
 
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.scannListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -80,11 +79,13 @@ public class MainActivity extends AppCompatActivity {
         barcodeAdapter.setOnItemClickListener(barcode -> {
             Intent intent = new Intent(MainActivity.this, ProductActivity.class);
             intent.putExtra(Utils.EXTRA_ID, barcode.id);
+            intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
             intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
             intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
             intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
             intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
             startActivityForResult(intent, EDIT_BARCODE_REQUEST);
+
             Log.d("Product ", barcode.toString());
         });
 
@@ -103,32 +104,32 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            String productImage = data.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE);
             String barcodeName = data.getStringExtra(Utils.EXTRA_BARCODE);
             String description = data.getStringExtra(Utils.EXTRA_DESCRIPTION);
             double price = data.getDoubleExtra(Utils.EXTRA_PRICE, 1);
-            boolean isChecked = data.getBooleanExtra(Utils.EXTRA_IS_CHECKED,true);
-            int quantity = data.getIntExtra(Utils.EXTRA_QUANTITY,1);
+            boolean isChecked = data.getBooleanExtra(Utils.EXTRA_IS_CHECKED, true);
+            int quantity = data.getIntExtra(Utils.EXTRA_QUANTITY, 1);
 
 
-                barcode = new Barcode(id,barcodeName,description,"banana",price,isChecked,quantity);
-                barcode.calculateTheNumberOfFruitsPerPurchase(price,quantity);
-                modelArrayList.add(barcode);
-                barcodeViewModel.update(barcode);
+            barcode = new Barcode(id, barcodeName, description, productImage, price, isChecked, quantity);
+            barcode.calculateTheNumberOfFruitsPerPurchase(price, quantity);
+            modelArrayList.add(barcode);
+            barcodeViewModel.update(barcode);
 
-                // saving barcode objects
+            // saving barcode objects
             SharedPreferences appSharedPrefsSavesItems = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor prefsEditor = appSharedPrefsSavesItems.edit();
             Gson gson = new Gson();
             //eliminate duplicates
             String json = gson.toJson(Utils.clearListFromDuplicateFirstName(modelArrayList));
-            prefsEditor.putString("MyObject",json);
+            prefsEditor.putString("MyObject", json);
             prefsEditor.apply();
 
-                // saving cost per item
+            // saving cost per item
 
 
-
-           Toast.makeText(this, "Barcode updated"+barcodeName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Barcode updated" + barcodeName, Toast.LENGTH_SHORT).show();
 
         } else {
             Toast.makeText(this, "Barcode not saved", Toast.LENGTH_SHORT).show();
@@ -140,32 +141,9 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         // close the primary database to ensure all the transactions are merged
         BarcodeDatabase.getInstance(getApplicationContext()).close();
-     //   BarcodeDatabase.getInstance(getApplicationContext()).barcodeDao().deleteAllBarcodes();
     }
-    //display order summary
-    public void orderSummaryLayout(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Order Summary");
-        builder.setCancelable(false);
-        builder.setMessage("Apple Banana Orange ");
-        builder.setPositiveButton("CONFIRM", (dialog, which) -> {
 
-            Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
-            startActivity(intent);
-            Toast.makeText(MainActivity.this, "Check-Out", Toast.LENGTH_SHORT).show();
-
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
-        AlertDialog dialog = builder.create();
-        //Show the AlertDialog
-        dialog.show();
-    }
-    // TO DO LIST:
-    // get online images for products(incomplete)
-    // create order summary
-    // after receipt return objects to default
-    // clean
-    public void init(){
+    public void init() {
         progressBar = new ProgressDialog(context);
     }
 
@@ -174,42 +152,25 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.summary_checkout, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.summaryButton:
 
                 SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
                 Gson gson = new Gson();
                 String json = appSharedPrefs.getString("MyObject", "");
 
-                Type type = new TypeToken<List<Barcode>>() {}.getType();
+                Type type = new TypeToken<List<Barcode>>() {
+                }.getType();
                 List<Barcode> arrayList = gson.fromJson(json, type);
 
-//                setTextViewFromSharedPreferencesList((ArrayList<Barcode>) arrayList,summaryInfoTextView);
-//                totolCalculatedTextView.setText(getString(R.string.total)+totalCalculated);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder
-                        (MainActivity.this,R.style.AlertDialogTheme);
+                        (MainActivity.this, R.style.AlertDialogTheme);
                 builder1.setTitle("Summary Order");
-                builder1 .setMessage(arrayList.toString());
-                builder1 .setPositiveButton("CHECK-OUT", new DialogInterface.OnClickListener() {
+                builder1.setMessage(arrayList.toString());
+                builder1.setPositiveButton("CHECK-OUT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(MainActivity.this, SummaryActivity.class);
@@ -227,6 +188,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    // TO DO LIST:
+    // get online images for products(incomplete)
+    // after receipt return objects to default
+    // clean
 
 
 }

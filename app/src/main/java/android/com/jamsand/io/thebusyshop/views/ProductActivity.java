@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,16 +20,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProductActivity extends AppCompatActivity {
 
-    public TextView barcodeTextView;
-    public TextView descriptionTextView;
-    public TextView priceTextView;
-    public NumberPicker numberPicker;
+    private ImageView productImage;
+    private TextView barcodeTextView;
+    private TextView descriptionTextView;
+    private TextView priceTextView;
+    private NumberPicker numberPicker;
 
-    public String barcodeName;
-    public String description;
-    public Double price;
-    public String quantity;
-    public boolean isChecked;
+    private String barcodeName;
+    private String description;
+    private Double price;
+    private String quantity;
+    private boolean isChecked;
+    int drawableId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +45,17 @@ public class ProductActivity extends AppCompatActivity {
             descriptionTextView.setText(intent.getStringExtra(Utils.EXTRA_DESCRIPTION));
             price = intent.getDoubleExtra(Utils.EXTRA_PRICE, 0.0);
             priceTextView.setText(getString(R.string.ZAR) + price);
+
+            drawableId = getResources().getIdentifier(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE), "drawable", this.getPackageName());
+            productImage.setImageResource(drawableId);
+
+            Toast.makeText(ProductActivity.this, ""+intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE), Toast.LENGTH_SHORT).show();
+
         }
     }
 
     public void init(){
+        productImage = findViewById(R.id.productImageView);
         barcodeTextView = findViewById(R.id.barcodeProductActivity);
         descriptionTextView = findViewById(R.id.detailProductName);
         priceTextView = findViewById(R.id.detailProductPrice);
@@ -58,18 +68,11 @@ public class ProductActivity extends AppCompatActivity {
 
         String barcodeName = barcodeTextView.getText().toString();
         String description = descriptionTextView.getText().toString();
-       // double price = Double.parseDouble(priceTextView.getText().toString());
-      //  boolean isChecked = true;
 
-//        String title = editTextTitle.getText().toString();
-//        String description = editTextDescription.getText().toString();
         int quantity = numberPicker.getValue();
-//
-//        if (title.trim().isEmpty() || description.trim().isEmpty()) {
-//            Toast.makeText(this, "Please insert a title and description", Toast.LENGTH_SHORT);
-//            return;
-//        }
+
         Intent data = new Intent();
+        data.putExtra(Utils.EXTRA_PRODUCT_IMAGE, drawableId);
         data.putExtra(Utils.EXTRA_BARCODE, barcodeName);
         data.putExtra(Utils.EXTRA_DESCRIPTION, description);
         data.putExtra(Utils.EXTRA_PRICE, price);
@@ -80,20 +83,6 @@ public class ProductActivity extends AppCompatActivity {
         if(id != -1){
             data.putExtra(Utils.EXTRA_ID,id);
         }
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Add to Cart");
-//        builder.setCancelable(false);
-//        //builder.setMessage("My Message");
-//        builder.setPositiveButton("OK", (dialog, which) -> {
-//            setResult(RESULT_OK, data);
-//            finish();
-//            Toast.makeText(ProductActivity.this, "added to Cart", Toast.LENGTH_SHORT).show();
-//             });
-//        builder.setNegativeButton("Cancel", (dialog, which) -> { /* ... */ });
-//        AlertDialog dialog = builder.create();
-//        //Show the AlertDialog
-//        dialog.show();
 
      MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder
              (ProductActivity.this,R.style.AlertDialogTheme);

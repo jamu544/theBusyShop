@@ -49,6 +49,8 @@ public abstract class BarcodeDatabase extends RoomDatabase {
 
         public PopulateDbTaskAsync(BarcodeDatabase db) {
             barcodeDao = db.barcodeDao();
+//            ldpi    | mdpi    | hdpi    | xhdpi     | xxhdpi    | xxxhdpi
+//            36 x 36 | 48 x 48 | 72 x 72 | 96 x 96   | 144 x 144 | 192 x 192
         }
 
         @Override
@@ -61,7 +63,7 @@ public abstract class BarcodeDatabase extends RoomDatabase {
             barcodeDao.insert(new Barcode(5, "WML999", "Waterlemon", "watermelon", 38.0, false, 0));
             barcodeDao.insert(new Barcode(6, "GPF208", "Grapefruit", "grapefruit", 3.5, false, 0));
             barcodeDao.insert(new Barcode(7, "PER478", "Pear", "pear", 5.0, false, 0));
-            barcodeDao.insert(new Barcode(8, "COC378", "Coconut", "coconut.jpg", 14.0, false, 0));
+            barcodeDao.insert(new Barcode(8, "COC378", "Coconut", "coconut", 14.0, false, 0));
             return null;
         }
     }

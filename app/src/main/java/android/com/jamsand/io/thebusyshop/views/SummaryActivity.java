@@ -55,6 +55,7 @@ public class SummaryActivity extends AppCompatActivity {
 
         setTextViewFromSharedPreferencesList((ArrayList<Barcode>) arrayList,summaryInfoTextView);
         totolCalculatedTextView.setText(getString(R.string.total)+totalCalculated);
+
     }
 
     public void setTextViewFromSharedPreferencesList(ArrayList<Barcode> arraylist, TextView textview) {

@@ -23,9 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeHolder>{
 
     private List<Barcode> barcodes = new ArrayList<>();
-
     public OnItemClickListener listener;
-    private int rowIndex = -1;
 
     @NonNull
     @Override
@@ -72,7 +70,6 @@ public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeH
                     int position = getAdapterPosition();// ALT CTRL L to format
                     if (listener != null && position != RecyclerView.NO_POSITION){
                         listener.onItemClick(barcodes.get(position));
-                        rowIndex=position;
                     }
                 }
             });

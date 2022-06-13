@@ -9,12 +9,14 @@ import java.util.Map;
 
 public class Utils {
     public static final String EXTRA_ID ="id";
+    public static final String EXTRA_PRODUCT_IMAGE="productImage";
     public static final String EXTRA_BARCODE ="barcode";
     public static final String EXTRA_DESCRIPTION ="description";
     public static final String EXTRA_PRICE ="price";
     public static final String EXTRA_QUANTITY ="quantity";
     public static final String EXTRA_IS_CHECKED ="isChecked";
 
+    //discard duplicates
     public static List<Barcode> clearListFromDuplicateFirstName(List<Barcode> list1) {
 
         Map<String, Barcode> cleanMap = new LinkedHashMap<String, Barcode>();
