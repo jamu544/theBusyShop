@@ -15,6 +15,7 @@ public class Utils {
     public static final String EXTRA_PRICE ="price";
     public static final String EXTRA_QUANTITY ="quantity";
     public static final String EXTRA_IS_CHECKED ="isChecked";
+    public static final int EDIT_BARCODE_REQUEST = 2;
 
     //discard duplicates
     public static List<Barcode> clearListFromDuplicateFirstName(List<Barcode> list1) {

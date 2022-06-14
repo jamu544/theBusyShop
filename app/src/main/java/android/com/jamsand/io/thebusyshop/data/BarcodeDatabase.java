@@ -59,7 +59,7 @@ public abstract class BarcodeDatabase extends RoomDatabase {
             barcodeDao.insert(new Barcode(1, "BAN258", "Banana", "banana", 2.0, false, 0));
             barcodeDao.insert(new Barcode(2, "APL883", "Apple", "apple", 5.0, false, 0));
             barcodeDao.insert(new Barcode(3, "SBR101", "Strawberry", "strawberry", 0.5, false, 0));
-            barcodeDao.insert(new Barcode(4, "ORN750", "Orange", "orange", 4.75, false, 0));
+            barcodeDao.insert(new Barcode(4, "ORN750", "Orange", "orange1", 4.75, false, 0));
             barcodeDao.insert(new Barcode(5, "WML999", "Waterlemon", "watermelon", 38.0, false, 0));
             barcodeDao.insert(new Barcode(6, "GPF208", "Grapefruit", "grapefruit", 3.5, false, 0));
             barcodeDao.insert(new Barcode(7, "PER478", "Pear", "pear", 5.0, false, 0));

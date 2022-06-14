@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.app.ProgressDialog;
 import android.com.jamsand.io.thebusyshop.R;
 import android.com.jamsand.io.thebusyshop.adapters.BarcodeAdapter;
 import android.com.jamsand.io.thebusyshop.data.BarcodeDatabase;
+import android.com.jamsand.io.thebusyshop.databinding.ActivityMainBinding;
+import android.com.jamsand.io.thebusyshop.interfaces.OnItemClickListener;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
 import android.com.jamsand.io.thebusyshop.utilities.Utils;
 import android.com.jamsand.io.thebusyshop.viewmodel.BarcodeViewModel;
@@ -34,11 +37,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private BarcodeViewModel barcodeViewModel;
-    public static final int ADD_NOTE_REQUEST = 1;
-    public static final int EDIT_BARCODE_REQUEST = 2;
+
     public static Context context;
 
     Barcode barcode;
@@ -46,11 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
     ProgressDialog progressBar;
 
+    private BarcodeAdapter barcodeAdapter;
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setTitle(getString(R.string.app_shop_label));
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+
+      //  binding.setTitle(getString(R.string.app_shop_label));
 
         context = this;
         init();
@@ -60,12 +66,8 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setCancelable(false);
         progressBar.show();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.scannListView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-
-        final BarcodeAdapter barcodeAdapter = new BarcodeAdapter();
-        recyclerView.setAdapter(barcodeAdapter);
+        barcodeAdapter = new BarcodeAdapter(context);
+        binding.setAdapter(barcodeAdapter);
 
 
         barcodeViewModel = new ViewModelProvider(this).get(BarcodeViewModel.class);
@@ -75,19 +77,22 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
 
             barcodeAdapter.setBarcodes(barcodes);
-        });
-        barcodeAdapter.setOnItemClickListener(barcode -> {
-            Intent intent = new Intent(MainActivity.this, ProductActivity.class);
-            intent.putExtra(Utils.EXTRA_ID, barcode.id);
-            intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
-            intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
-            intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
-            intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
-            intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
-            startActivityForResult(intent, EDIT_BARCODE_REQUEST);
 
-            Log.d("Product ", barcode.toString());
         });
+//        barcodeAdapter.onItemClick( barcode -> {
+//            Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+//
+//            intent.putExtra(Utils.EXTRA_ID, barcode.);
+//            intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
+//            intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
+//            intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
+//            intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
+//            intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
+//            startActivityForResult(intent, EDIT_BARCODE_REQUEST);
+//
+//            Log.d("Product ", barcode.toString());
+//        });
+
 
 
     }
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_BARCODE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == Utils.EDIT_BARCODE_REQUEST && resultCode == RESULT_OK) {
             int id = data.getIntExtra(Utils.EXTRA_ID, -1);
 
             if (id == -1) {
@@ -187,6 +192,23 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(Barcode barcode) {
+        Intent intent = new Intent(MainActivity.this, ProductActivity.class);
+//
+            intent.putExtra(Utils.EXTRA_ID, barcode.id);
+            intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
+            intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
+            intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
+            intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
+            intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
+            startActivityForResult(intent, Utils.EDIT_BARCODE_REQUEST);
+
+
+        Toast.makeText(context,barcode.barcodeName,
+                Toast.LENGTH_SHORT).show();
     }
     // TO DO LIST:
     // get online images for products(incomplete)

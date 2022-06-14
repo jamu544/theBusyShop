@@ -1,11 +1,16 @@
 package android.com.jamsand.io.thebusyshop.adapters;
 
 import android.app.Application;
+import android.com.jamsand.io.thebusyshop.BR;
 import android.com.jamsand.io.thebusyshop.R;
+import android.com.jamsand.io.thebusyshop.databinding.BarcodeListItemBinding;
 import android.com.jamsand.io.thebusyshop.interfaces.OnItemClickListener;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
+import android.com.jamsand.io.thebusyshop.utilities.Utils;
 import android.com.jamsand.io.thebusyshop.views.MainActivity;
+import android.com.jamsand.io.thebusyshop.views.ProductActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,31 +23,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeHolder>{
+public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeHolder> {
 
     private List<Barcode> barcodes = new ArrayList<>();
-    public OnItemClickListener listener;
+    private Context context;
 
+    public BarcodeAdapter(Context context){
+     //   this.barcodes = dataModel;
+        this.context = context;
+    }
     @NonNull
     @Override
     public BarcodeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.barcode_list_item,parent,false);
-        return new BarcodeHolder(view);
+        BarcodeListItemBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.barcode_list_item,parent,false);
+
+        return new BarcodeHolder(binding);
     }
     @Override
     public void onBindViewHolder(@NonNull BarcodeHolder holder, int position) {
         final Barcode barcode = barcodes.get(position);
-    //    holder.barcodeImage.setImageResource(barcode.barcodeImage);
-        if(barcode.isChecked){
-            holder.barcodeName.setTextColor(Color.parseColor("#FF0000"));
-        }
-        else{
-            holder.barcodeName.setTextColor(Color.parseColor("#000000"));
-        }
-        holder.barcodeName.setText(barcode.barcodeName);
+        holder.bind(barcode);
+        holder.itemBinding.setOnItemClick((OnItemClickListener) context);
     }
     @Override
     public int getItemCount() {
@@ -52,33 +58,24 @@ public class BarcodeAdapter extends RecyclerView.Adapter<BarcodeAdapter.BarcodeH
         this.barcodes = barcodes;
         notifyDataSetChanged();
     }
-    public Barcode getBarcodeAt(int position){
-        return barcodes.get(position);
-    }
+
     public class BarcodeHolder extends RecyclerView.ViewHolder {
-   //     public ImageView barcodeImage;
-        public TextView barcodeName;
-        public LinearLayout linearLayout;
-        public BarcodeHolder(@NonNull View itemView) {
-            super(itemView);
-     //       this.barcodeImage = (ImageView) itemView.findViewById(R.id.barcodeImage);
-            this.barcodeName = (TextView) itemView.findViewById(R.id.barcodeNumber);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.barcodeLayout);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();// ALT CTRL L to format
-                    if (listener != null && position != RecyclerView.NO_POSITION){
-                        listener.onItemClick(barcodes.get(position));
-                    }
-                }
-            });
+     public BarcodeListItemBinding itemBinding;
+
+     public BarcodeHolder(BarcodeListItemBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.itemBinding = itemBinding;
+        }
+        public void bind(Object obj){
+            itemBinding.setVariable(BR.model, obj);
+            itemBinding.executePendingBindings();
+            if(itemBinding.getModel().isChecked){
+                itemBinding.barcodeNumber.setTextColor(Color.parseColor("#FF0000"));
+            }
+            else{
+                itemBinding.barcodeNumber.setTextColor(Color.parseColor("#000000"));
+            }
+            itemBinding.barcodeNumber.setText(itemBinding.getModel().barcodeName);
         }
     }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-            this.listener = listener;
-    }
-
-
 }
