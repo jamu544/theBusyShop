@@ -40,37 +40,32 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private BarcodeViewModel barcodeViewModel;
-
-    public static Context context;
-
-    Barcode barcode;
-    ArrayList<Barcode> modelArrayList = new ArrayList();
-
-    ProgressDialog progressBar;
-
+    private Context context;
+    private ArrayList<Barcode> modelArrayList = new ArrayList();
+    private ProgressDialog progressBar;
     private BarcodeAdapter barcodeAdapter;
     private ActivityMainBinding binding;
+    private Barcode barcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
-
-      //  binding.setTitle(getString(R.string.app_shop_label));
-
+        setTitle(getString(R.string.app_shop_label));
         context = this;
-        init();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        progressBar = new ProgressDialog(context);
+        barcodeAdapter = new BarcodeAdapter(context);
+        barcodeViewModel = new ViewModelProvider(this).get(BarcodeViewModel.class);
 
-        progressBar.setMessage("please wait...");
+        progressBar.setMessage(getString(R.string.please_wait));
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.setCancelable(false);
         progressBar.show();
 
-        barcodeAdapter = new BarcodeAdapter(context);
+
         binding.setAdapter(barcodeAdapter);
 
 
-        barcodeViewModel = new ViewModelProvider(this).get(BarcodeViewModel.class);
         barcodeViewModel.getAllBarcodes().observe(this, barcodes -> {
             progressBar.dismiss();
             //update RecyclerView
@@ -79,21 +74,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             barcodeAdapter.setBarcodes(barcodes);
 
         });
-//        barcodeAdapter.onItemClick( barcode -> {
-//            Intent intent = new Intent(MainActivity.this, ProductActivity.class);
-//
-//            intent.putExtra(Utils.EXTRA_ID, barcode.);
-//            intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
-//            intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
-//            intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
-//            intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
-//            intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
-//            startActivityForResult(intent, EDIT_BARCODE_REQUEST);
-//
-//            Log.d("Product ", barcode.toString());
-//        });
-
-
 
     }
 
@@ -109,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 return;
             }
 
-            String productImage = data.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE);
+            int productImage = data.getIntExtra(Utils.EXTRA_PRODUCT_IMAGE,1);
             String barcodeName = data.getStringExtra(Utils.EXTRA_BARCODE);
             String description = data.getStringExtra(Utils.EXTRA_DESCRIPTION);
             double price = data.getDoubleExtra(Utils.EXTRA_PRICE, 1);
@@ -148,10 +128,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         BarcodeDatabase.getInstance(getApplicationContext()).close();
     }
 
-    public void init() {
-        progressBar = new ProgressDialog(context);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.summary_checkout, menu);
@@ -174,7 +150,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 MaterialAlertDialogBuilder builder1 = new MaterialAlertDialogBuilder
                         (MainActivity.this, R.style.AlertDialogTheme);
                 builder1.setTitle("Summary Order");
-                builder1.setMessage(arrayList.toString());
+                if (arrayList ==null){
+                    builder1.setMessage("order is empty");
+                }else {
+                    builder1.setMessage(arrayList.toString());
+                }
+
                 builder1.setPositiveButton("CHECK-OUT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -197,23 +178,22 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public void onItemClick(Barcode barcode) {
         Intent intent = new Intent(MainActivity.this, ProductActivity.class);
-//
-            intent.putExtra(Utils.EXTRA_ID, barcode.id);
-            intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
-            intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
-            intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
-            intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
-            intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
-            startActivityForResult(intent, Utils.EDIT_BARCODE_REQUEST);
+
+        intent.putExtra(Utils.EXTRA_ID, barcode.id);
+     //   intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
+        intent.putExtra(Utils.EXTRA_PRODUCT_IMAGE, barcode.productImage);
+        intent.putExtra(Utils.EXTRA_BARCODE, barcode.barcodeName);
+        intent.putExtra(Utils.EXTRA_DESCRIPTION, barcode.description);
+        intent.putExtra(Utils.EXTRA_PRICE, barcode.price);
+        intent.putExtra(Utils.EXTRA_IS_CHECKED, barcode.isChecked);
+        startActivityForResult(intent, Utils.EDIT_BARCODE_REQUEST);
 
 
-        Toast.makeText(context,barcode.barcodeName,
+        Toast.makeText(context, barcode.barcodeName,
                 Toast.LENGTH_SHORT).show();
     }
     // TO DO LIST:
-    // get online images for products(incomplete)
     // after receipt return objects to default
-    // clean
 
 
 }

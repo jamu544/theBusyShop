@@ -2,9 +2,14 @@ package android.com.jamsand.io.thebusyshop.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.com.jamsand.io.thebusyshop.R;
+
+
+import android.com.jamsand.io.thebusyshop.databinding.ActivityProductBinding;
 import android.com.jamsand.io.thebusyshop.utilities.Utils;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,56 +25,41 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProductActivity extends AppCompatActivity {
 
-    private ImageView productImage;
-    private TextView barcodeTextView;
-    private TextView descriptionTextView;
-    private TextView priceTextView;
-    private NumberPicker numberPicker;
 
-    private String barcodeName;
-    private String description;
+
     private Double price;
-    private String quantity;
-    private boolean isChecked;
-    int drawableId;
+    private int drawableId;
+    private ActivityProductBinding activityProductBinding;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
-        setTitle("ITEM");
-        init();
+        context = this;
+       activityProductBinding = DataBindingUtil.setContentView(this,R.layout.activity_product);
+       setTitle("ITEM");
+
         Intent intent = getIntent();
         if(intent.hasExtra(Utils.EXTRA_ID)) {
-            barcodeTextView.setText(intent.getStringExtra(Utils.EXTRA_BARCODE));
-            descriptionTextView.setText(intent.getStringExtra(Utils.EXTRA_DESCRIPTION));
+            activityProductBinding.barcodeTextViewProductActivity.setText(intent.getStringExtra(Utils.EXTRA_BARCODE));
+            activityProductBinding.detailProductName.setText(intent.getStringExtra(Utils.EXTRA_DESCRIPTION));
             price = intent.getDoubleExtra(Utils.EXTRA_PRICE, 0.0);
-            priceTextView.setText(getString(R.string.ZAR) + price);
+            activityProductBinding.detailProductPrice.setText(getString(R.string.ZAR) + price);
+            activityProductBinding.productImageView.setImageResource(intent.getIntExtra(Utils.EXTRA_PRODUCT_IMAGE,0));
+         //   drawableId = getResources().getIdentifier(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE), "drawable", this.getPackageName());
+         //   activityProductBinding.productImageView.setImageResource(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE));
 
-            drawableId = getResources().getIdentifier(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE), "drawable", this.getPackageName());
-            productImage.setImageResource(drawableId);
-
-            Toast.makeText(ProductActivity.this, ""+intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE), Toast.LENGTH_SHORT).show();
-
+//        Utils.setImageDrawable(activityProductBinding.productImageView, Integer.parseInt(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE)));
         }
-    }
 
-    public void init(){
-        productImage = findViewById(R.id.productImageView);
-        barcodeTextView = findViewById(R.id.barcodeProductActivity);
-        descriptionTextView = findViewById(R.id.detailProductName);
-        priceTextView = findViewById(R.id.detailProductPrice);
-        numberPicker = findViewById(R.id.numberPicker);
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(10);
     }
 
     public void addToCartOnClick(View view){
+        String barcodeName = activityProductBinding.barcodeTextViewProductActivity.getText().toString();
+        String description = activityProductBinding.detailProductName.getText().toString();
 
-        String barcodeName = barcodeTextView.getText().toString();
-        String description = descriptionTextView.getText().toString();
-
-        int quantity = numberPicker.getValue();
+        int quantity = activityProductBinding.numberPicker.getValue();
 
         Intent data = new Intent();
         data.putExtra(Utils.EXTRA_PRODUCT_IMAGE, drawableId);

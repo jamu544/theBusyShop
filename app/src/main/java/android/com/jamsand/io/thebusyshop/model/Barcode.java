@@ -1,6 +1,7 @@
 package android.com.jamsand.io.thebusyshop.model;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -10,14 +11,15 @@ public class Barcode {
     public int barcodeImage;
     public String barcodeName;
     public String description;
-    public String productImage;
+    public int productImage;
     public double price;
     public boolean isChecked;// true if the user sets quantity
     public int quantity;
 
+    @Ignore
     public Barcode(){}
 
-    public Barcode(int id, String barcodeName, String description, String productImage, double price, boolean isChecked, int quantity) {
+    public Barcode(int id, String barcodeName, String description, int productImage, double price, boolean isChecked, int quantity) {
         this.id = id;
         this.barcodeName = barcodeName;
         this.description = description;
@@ -34,12 +36,6 @@ public class Barcode {
     public double calculateTheNumberOfFruitsPerPurchase(double price, int quantity){
         double sum = price*quantity;
         return sum;
-    }
-
-    public double calculateTotalCostOrder(){
-
-
-        return 0.0;
     }
 
 }

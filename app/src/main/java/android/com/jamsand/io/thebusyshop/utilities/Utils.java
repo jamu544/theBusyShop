@@ -1,11 +1,15 @@
 package android.com.jamsand.io.thebusyshop.utilities;
 
 import android.com.jamsand.io.thebusyshop.model.Barcode;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.DrawableRes;
+import androidx.databinding.BindingAdapter;
 
 public class Utils {
     public static final String EXTRA_ID ="id";
@@ -26,5 +30,13 @@ public class Utils {
         }
         List<Barcode> list = new ArrayList<Barcode>(cleanMap.values());
         return list;
+    }
+
+    @BindingAdapter("src")
+    public static void setImageDrawable(ImageView view, @DrawableRes int drawableId) {
+        if (drawableId != 0) {
+            view.setImageResource(drawableId);
+        }
+
     }
 }

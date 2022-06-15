@@ -1,5 +1,6 @@
 package android.com.jamsand.io.thebusyshop.data;
 
+import android.com.jamsand.io.thebusyshop.R;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -56,14 +57,14 @@ public abstract class BarcodeDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             //    Barcode(int id,String barcodeName, String description, String image, int price)
-            barcodeDao.insert(new Barcode(1, "BAN258", "Banana", "banana", 2.0, false, 0));
-            barcodeDao.insert(new Barcode(2, "APL883", "Apple", "apple", 5.0, false, 0));
-            barcodeDao.insert(new Barcode(3, "SBR101", "Strawberry", "strawberry", 0.5, false, 0));
-            barcodeDao.insert(new Barcode(4, "ORN750", "Orange", "orange1", 4.75, false, 0));
-            barcodeDao.insert(new Barcode(5, "WML999", "Waterlemon", "watermelon", 38.0, false, 0));
-            barcodeDao.insert(new Barcode(6, "GPF208", "Grapefruit", "grapefruit", 3.5, false, 0));
-            barcodeDao.insert(new Barcode(7, "PER478", "Pear", "pear", 5.0, false, 0));
-            barcodeDao.insert(new Barcode(8, "COC378", "Coconut", "coconut", 14.0, false, 0));
+            barcodeDao.insert(new Barcode(1, "BAN258", "Banana", R.drawable.banana, 2.0, false, 0));
+            barcodeDao.insert(new Barcode(2, "APL883", "Apple",  R.drawable.apple1, 5.0, false, 0));
+            barcodeDao.insert(new Barcode(3, "SBR101", "Strawberry",  R.drawable.strawberry, 0.5, false, 0));
+            barcodeDao.insert(new Barcode(4, "ORN750", "Orange",  R.drawable.orange, 4.75, false, 0));
+            barcodeDao.insert(new Barcode(5, "WML999", "Waterlemon",  R.drawable.watermelon, 38.0, false, 0));
+            barcodeDao.insert(new Barcode(6, "GPF208", "Grapefruit",  R.drawable.grapefruit, 3.5, false, 0));
+            barcodeDao.insert(new Barcode(7, "PER478", "Pear",  R.drawable.pear, 5.0, false, 0));
+            barcodeDao.insert(new Barcode(8, "COC378", "Coconut",  R.drawable.coconut, 14.0, false, 0));
             return null;
         }
     }
