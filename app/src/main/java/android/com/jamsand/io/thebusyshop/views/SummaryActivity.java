@@ -2,6 +2,7 @@ package android.com.jamsand.io.thebusyshop.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.com.jamsand.io.thebusyshop.R;
 import android.com.jamsand.io.thebusyshop.databinding.ActivitySummaryBinding;
@@ -26,26 +27,23 @@ import java.util.Locale;
 
 public class SummaryActivity extends AppCompatActivity {
 
-     private TextView summaryInfoTextView;
-     private TextView dateTextView;
-     private TextView totolCalculatedTextView;
+
      private ArrayList<Barcode>  barcodes = new ArrayList<>();
      private double totalCalculated;
 
-    //create a date string.
-    String date_n = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
+
     private ActivitySummaryBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_summary);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_summary);
         setTitle("RECEIPT");
-        summaryInfoTextView = (TextView) findViewById(R.id.infoItemsPurchasedTextView);
-        dateTextView = (TextView) findViewById(R.id.dateTextView);
-        totolCalculatedTextView = (TextView) findViewById(R.id.infoTotalTextView);
 
 
-        setDate(dateTextView);
+        String date_n = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
+        binding.dateTextView.setText(date_n);
+
+
 
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
@@ -54,8 +52,8 @@ public class SummaryActivity extends AppCompatActivity {
         Type type = new TypeToken<List<Barcode>>() {}.getType();
         List<Barcode> arrayList = gson.fromJson(json, type);
 
-        setTextViewFromSharedPreferencesList((ArrayList<Barcode>) arrayList,summaryInfoTextView);
-        totolCalculatedTextView.setText(getString(R.string.total)+totalCalculated);
+        setTextViewFromSharedPreferencesList((ArrayList<Barcode>) arrayList, binding.infoItemsPurchasedTextView);
+        binding.infoTotalTextView.setText(getString(R.string.total)+totalCalculated);
 
     }
 
@@ -73,11 +71,6 @@ public class SummaryActivity extends AppCompatActivity {
         textview.setText(output);
     }
 
-    public void setDate(TextView view){
-        String date_n = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
-        dateTextView.setText(date_n);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.check_out_confirmation_menu, menu);
@@ -90,9 +83,9 @@ public class SummaryActivity extends AppCompatActivity {
             case R.id.shareButton:
 
                 //data to be shared
-                String date = dateTextView .getText().toString();
-                String summary = summaryInfoTextView.getText().toString();
-                String total = totolCalculatedTextView .getText().toString();
+                String date = binding.dateTextView .getText().toString();
+                String summary = binding.infoItemsPurchasedTextView.getText().toString();
+                String total = binding.infoTotalTextView .getText().toString();
 
 
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
