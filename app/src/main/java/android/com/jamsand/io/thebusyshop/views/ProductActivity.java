@@ -25,12 +25,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProductActivity extends AppCompatActivity {
 
-
-
     private Double price;
     private int drawableId;
     private ActivityProductBinding activityProductBinding;
-
     private Context context;
 
     @Override
@@ -47,12 +44,7 @@ public class ProductActivity extends AppCompatActivity {
             price = intent.getDoubleExtra(Utils.EXTRA_PRICE, 0.0);
             activityProductBinding.detailProductPrice.setText(getString(R.string.ZAR) + price);
             activityProductBinding.productImageView.setImageResource(intent.getIntExtra(Utils.EXTRA_PRODUCT_IMAGE,0));
-         //   drawableId = getResources().getIdentifier(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE), "drawable", this.getPackageName());
-         //   activityProductBinding.productImageView.setImageResource(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE));
-
-//        Utils.setImageDrawable(activityProductBinding.productImageView, Integer.parseInt(intent.getStringExtra(Utils.EXTRA_PRODUCT_IMAGE)));
         }
-
     }
 
     public void addToCartOnClick(View view){

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.com.jamsand.io.thebusyshop.R;
+import android.com.jamsand.io.thebusyshop.databinding.ActivitySummaryBinding;
 import android.com.jamsand.io.thebusyshop.model.Barcode;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,15 +34,15 @@ public class SummaryActivity extends AppCompatActivity {
 
     //create a date string.
     String date_n = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
-
+    private ActivitySummaryBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
         setTitle("RECEIPT");
-        summaryInfoTextView = (TextView) findViewById(R.id.info_purchased);
+        summaryInfoTextView = (TextView) findViewById(R.id.infoItemsPurchasedTextView);
         dateTextView = (TextView) findViewById(R.id.dateTextView);
-        totolCalculatedTextView = (TextView) findViewById(R.id.info_purchased_total);
+        totolCalculatedTextView = (TextView) findViewById(R.id.infoTotalTextView);
 
 
         setDate(dateTextView);

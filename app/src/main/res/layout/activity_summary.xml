@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/yellow"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="500dp"
         android:layout_height="500dp"
@@ -21,7 +21,7 @@
             android:layout_height="fill_parent">
 
         <TextView
-            android:id="@+id/info_summary"
+            android:id="@+id/infoSummaryTextView"
             android:layout_width="271dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -42,30 +42,30 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textAlignment="center"
-            android:text="03:08:2020"
-            android:layout_below="@id/info_summary"
+            android:text="@string/date_string"
+            android:layout_below="@id/infoSummaryTextView"
              />
 
         <TextView
-            android:id="@+id/info_purchased"
+            android:id="@+id/infoItemsPurchasedTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="one item"
+            android:text="@string/one_item"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:layout_below="@id/dateTextView"
             android:layout_marginStart="30dp"
            />
             <TextView
-                android:id="@+id/info_purchased_total"
+                android:id="@+id/infoTotalTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Total R15.000"
+                android:text="@string/total_r15_000"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:layout_below="@id/info_purchased"
+                android:layout_below="@id/infoItemsPurchasedTextView"
                 android:layout_marginStart="30dp"
                 />
 
@@ -73,5 +73,5 @@
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
-
+</layout>
 

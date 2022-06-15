@@ -15,4 +15,7 @@
     <string name="share">SHARE</string>
     <string name="check_out_button">CHECK-OUT</string>
     <string name="please_wait">please wait...</string>
+    <string name="date_string">03:08:2020</string>
+    <string name="one_item">one item</string>
+    <string name="total_r15_000">Total R15.000</string>
 </resources>
