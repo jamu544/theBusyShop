@@ -2,12 +2,9 @@ package android.com.jamsand.io.thebusyshop.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.com.jamsand.io.thebusyshop.R;
@@ -24,7 +21,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -107,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             SharedPreferences.Editor prefsEditor = appSharedPrefsSavesItems.edit();
             Gson gson = new Gson();
             //eliminate duplicates
-            String json = gson.toJson(Utils.clearListFromDuplicateFirstName(modelArrayList));
+            String json = gson.toJson(Utils.clearListFromDuplicateBarcodes(modelArrayList));
             prefsEditor.putString("MyObject", json);
             prefsEditor.apply();
 

@@ -22,7 +22,7 @@ public class Utils {
     public static final int EDIT_BARCODE_REQUEST = 2;
 
     //discard duplicates
-    public static List<Barcode> clearListFromDuplicateFirstName(List<Barcode> list1) {
+    public static List<Barcode> clearListFromDuplicateBarcodes(List<Barcode> list1) {
 
         Map<String, Barcode> cleanMap = new LinkedHashMap<String, Barcode>();
         for (int i = 0; i < list1.size(); i++) {

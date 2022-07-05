@@ -40,10 +40,8 @@ public class SummaryActivity extends AppCompatActivity {
         setTitle("RECEIPT");
 
 
-        String date_n = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
-        binding.dateTextView.setText(date_n);
-
-
+        String dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
+        binding.dateTextView.setText(dateFormat);
 
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
@@ -99,4 +97,6 @@ public class SummaryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
